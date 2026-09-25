@@ -1,0 +1,17 @@
+# Environment & Credentials
+.env
+*.session
+*.cookie
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Scraped Output
+*.json
+*.csv
+output/

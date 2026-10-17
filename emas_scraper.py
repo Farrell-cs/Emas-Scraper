@@ -175,15 +175,15 @@ class EmasScraper:
                 # Detect activity type via CSS class (modtype_assign, modtype_resource, etc.)
                 classes = " ".join(act.get("class", []))
                 act_type = "other"
-                if "modtype_assign" in classes:
+                if "mod_assign" in classes:
                     act_type = "assignment"
-                elif "modtype_resource" in classes:
+                elif "mod_resource" in classes:
                     act_type = "file/resource"
-                elif "modtype_quiz" in classes:
+                elif "mod_quiz" in classes:
                     act_type = "quiz"
-                elif "modtype_forum" in classes:
+                elif "mod_forum" in classes:
                     act_type = "forum"
-                elif "modtype_url" in classes:
+                elif "mod_url" in classes:
                     act_type = "external_link"
 
                 activities.append({
@@ -213,16 +213,16 @@ class EmasScraper:
         soup = BeautifulSoup(res.text, "html.parser")
 
         events = []
-        for item in soup.select(".event[data-event-id], .eventnode, .calendar-event"):
-            title_el = item.select_one("h3.name, .name a")
-            date_el = item.select_one(".date, .date-time")
+        for item in soup.select(".event[data-event-id]"):
+            title_el = item.select_one("h3")
+            date_el = item.select_one("div.row, div.col-11")
             course_el = item.select_one(".course-name, .course")
             link_el = item.select_one("a[href*='/mod/']")
 
             if title_el:
                 events.append({
                     "title": title_el.get_text(strip=True),
-                    "due_date": date_el.get_text(strip=True) if date_el else "Unknown date",
+                    "due_date": date_el.get_text(strip=True) if date_el else "Unknown Date", 
                     "course": course_el.get_text(strip=True) if course_el else "General",
                     "url": link_el.get("href", "") if link_el else ""
                 })

@@ -215,8 +215,10 @@ class EmasScraper:
         events = []
         for item in soup.select(".event[data-event-id]"):
             title_el = item.select_one("h3")
-            date_el = item.select_one("div.row, div.col-11")
-            course_el = item.select_one(".course-name, .course")
+            date_el = item.select_one("div.row div.col-11")
+            last_row = len(item.select("div.description.card-body>div.row.mt-1")) + 1
+            course_el = item.select_one(f"div.description.card-body>div.row.mt-1:nth-of-type({last_row})>div.col-11")
+
             link_el = item.select_one("a[href*='/mod/']")
 
             if title_el:
@@ -289,7 +291,7 @@ def main():
             result_data["upcoming_deadlines"] = deadlines
             print(f"    Found {len(deadlines)} upcoming deadline(s):")
             for d in deadlines:
-                print(f"    - [{d['due_date']}] {d['title']} ({d['course']})")
+                print(f"    - [{d['due_date']}] {d['title']} [{d['course']}]")
             print()
         except Exception as e:
             print(f"    [!] Could not fetch deadlines: {e}\n")

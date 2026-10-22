@@ -234,13 +234,13 @@ class EmasScraper:
 
 def prompt_for_cookie() -> str:
     """Prompts the user interactively to paste their MoodleSession cookie."""
-    print("=" * 60)
-    print("  EMAS 3 UI - Authentication Required")
-    print("=" * 60)
-    print("1. Open Chrome/Firefox and log in to: https://emas3.ui.ac.id")
-    print("2. Press F12 -> Go to 'Application' (or 'Storage') -> 'Cookies'")
-    print("3. Click 'https://emas3.ui.ac.id' and copy the value of 'MoodleSession'")
-    print("=" * 60)
+    print("=" + "-" * 74 + "=")
+    print("                   EMAS 3 UI - Authentication Required")
+    print("=" + "-" * 74 + "=")
+    print("|  1. Open Chrome/Firefox and log in to: https://emas3.ui.ac.id            |")
+    print("|  2. Press F12 -> Go to 'Application' (press >>) -> 'Cookies'             |")
+    print("|  3. Click 'https://emas3.ui.ac.id' and copy the value of 'MoodleSession' |")
+    print("=" + "-" * 74 + "=")
     cookie = input("Paste your MoodleSession cookie value here: ").strip()
     return cookie
 
@@ -289,9 +289,14 @@ def main():
         try:
             deadlines = scraper.get_upcoming_deadlines()
             result_data["upcoming_deadlines"] = deadlines
-            print(f"    Found {len(deadlines)} upcoming deadline(s):")
+            print("=" + "-" * 74 + "=")
+            print(f"                      Found {len(deadlines)} upcoming deadline(s)")
+            print("=" + "-" * 74 + "=")
             for d in deadlines:
-                print(f"    - [{d['due_date']}] {d['title']} [{d['course']}]")
+                print(f"   << {d['due_date']} >>")
+                print(f"      {d['title']}")
+                print(f"      [{d['course']}]")
+                print("=" + "-" * 74 + "=")
             print()
         except Exception as e:
             print(f"    [!] Could not fetch deadlines: {e}\n")
